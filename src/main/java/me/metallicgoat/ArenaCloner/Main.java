@@ -3,7 +3,9 @@ package me.metallicgoat.ArenaCloner;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import me.metallicgoat.ArenaCloner.commands.Commands;
+import me.metallicgoat.ArenaCloner.commands.TabComp;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,8 +34,11 @@ public class Main extends JavaPlugin {
         );
     }
     private void registerCommands() {
-        getCommand("bw-cloner").setExecutor(new Commands());
-        //getCommand("gen-splitter").setTabCompleter(new TabComp());
+        PluginCommand command = getCommand("bw-cloner");
+        if(command != null) {
+            command.setExecutor(new Commands());
+            command.setTabCompleter(new TabComp());
+        }
     }
 
     public static Main getInstance() {
