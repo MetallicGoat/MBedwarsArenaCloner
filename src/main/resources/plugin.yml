@@ -1,0 +1,13 @@
+name: ArenaCloner
+author: MetallicGoat
+main: me.metallicgoat.ArenaCloner.Main
+description: ArenaCloner for MBedwars
+version: 1.0.0
+api-version: 1.13
+depend: [MBedwars]
+commands:
+  bw-cloner:
+    usage: /bw-cloner <ArenaName> <ClonedArenaName>
+    permission: bw-cloner.admin
+softdepend:
+  - Multiverse-Core
