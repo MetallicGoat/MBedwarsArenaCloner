@@ -15,13 +15,9 @@ public class Main extends JavaPlugin {
     private static MultiverseCore multiverseCore;
 
     public void onEnable() {
-        //int pluginId = 11928;
-        //Metrics metrics = new Metrics(this, pluginId);
 
         instance = this;
         registerCommands();
-
-        multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
 
         PluginDescriptionFile pdf = this.getDescription();
 
@@ -32,6 +28,13 @@ public class Main extends JavaPlugin {
                 "Version: " + pdf.getVersion(),
                 "------------------------------"
         );
+
+        if(Bukkit.getServer().getPluginManager().isPluginEnabled("Multiverse-Core")) {
+            multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        }else{
+            log("This extension of MBedwars requires Multiverse-Core to function. Disabling...");
+            this.setEnabled(false);
+        }
     }
     private void registerCommands() {
         PluginCommand command = getCommand("bw-cloner");
