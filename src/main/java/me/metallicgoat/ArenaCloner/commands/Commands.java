@@ -60,7 +60,7 @@ public class Commands implements CommandExecutor {
                         //Set arena borders
                         if(arena.getRegenerationType() == RegenerationType.REGION){
                             arenaBuilder.setLocation1(arena.getMinRegionCorner());
-                            arenaBuilder.setLocation2(arena.getMinRegionCorner());
+                            arenaBuilder.setLocation2(arena.getMaxRegionCorner());
                         }
 
                         //Clone arena data
