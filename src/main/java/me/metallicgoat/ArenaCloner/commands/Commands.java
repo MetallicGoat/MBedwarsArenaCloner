@@ -31,7 +31,7 @@ public class Commands implements CommandExecutor {
 
                 if (arena != null) {
                     World world = arena.getGameWorld();
-                    if (arena.getStatus() == ArenaStatus.LOBBY
+                    if (arena.getStatus() == ArenaStatus.STOPPED
                             && arena.getRegenerationType() != RegenerationType.VOTING
                             && world != null) {
                         long oldTime = System.currentTimeMillis();
