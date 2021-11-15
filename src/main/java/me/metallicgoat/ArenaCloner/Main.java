@@ -2,10 +2,9 @@ package me.metallicgoat.ArenaCloner;
 
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
-import me.metallicgoat.ArenaCloner.commands.Commands;
-import me.metallicgoat.ArenaCloner.commands.TabComp;
+import de.marcely.bedwars.api.BedwarsAPI;
+import me.metallicgoat.ArenaCloner.commands.RegisterBedwarsCommands;
 import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,7 +16,6 @@ public class Main extends JavaPlugin {
     public void onEnable() {
 
         instance = this;
-        registerCommands();
 
         PluginDescriptionFile pdf = this.getDescription();
 
@@ -35,13 +33,8 @@ public class Main extends JavaPlugin {
             log("This extension of MBedwars requires Multiverse-Core to function. Disabling...");
             this.setEnabled(false);
         }
-    }
-    private void registerCommands() {
-        PluginCommand command = getCommand("bw-cloner");
-        if(command != null) {
-            command.setExecutor(new Commands());
-            command.setTabCompleter(new TabComp());
-        }
+
+        BedwarsAPI.onReady(RegisterBedwarsCommands::RegisterCloneCommand);
     }
 
     public static Main getInstance() {
