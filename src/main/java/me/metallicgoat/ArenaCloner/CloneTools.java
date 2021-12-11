@@ -17,13 +17,7 @@ import java.util.List;
 
 public class CloneTools {
 
-    public static Either<Arena, String> clonedArena(Arena arena, String cloneName, boolean permanentArena) throws IOException {
-        FileConfiguration dataYml = Main.getDataYml();
-        List<String> activeArenas = dataYml.getStringList("Active-Arenas");
-        activeArenas.add(cloneName);
-        dataYml.set("Active-Arenas", activeArenas);
-        dataYml.save(Main.dataYmlFile);
-
+    public static Either<Arena, String> clonedArena(Arena arena, String cloneName, boolean permanentArena) {
         World world = arena.getGameWorld();
         if (arena.getStatus() == ArenaStatus.STOPPED
                 && arena.getRegenerationType() != RegenerationType.VOTING
@@ -103,6 +97,18 @@ public class CloneTools {
 
                 //Enable
                 clonedArena.setStatus(ArenaStatus.LOBBY);
+
+                if(!permanentArena) {
+                    FileConfiguration dataYml = Main.getDataYml();
+                    List<String> activeArenas = dataYml.getStringList("Active-Arenas");
+                    activeArenas.add(cloneName);
+                    dataYml.set("Active-Arenas", activeArenas);
+                    try {
+                        dataYml.save(Main.dataYmlFile);
+                    }catch (IOException ignored){
+
+                    }
+                }
 
                 //Complete Message
                 return Either.left(clonedArena);
