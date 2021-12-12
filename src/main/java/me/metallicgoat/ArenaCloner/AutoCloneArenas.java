@@ -20,12 +20,15 @@ public class AutoCloneArenas implements Listener{
     
     @EventHandler
     public void onRoundStart(RoundStartEvent e){
-        if(getUsedArenaToAllArenasRatio() > somenumber){
+        if(getUsedArenaToAllArenasRatio() > somenumberfromconfig){
             //chose best arena to clone
         }
     }
     
     private double getUsedArenaToAllArenasRatio(){
+
+        //Instead, maybe subtract players not in a game, to the amount oof free spots in arenas in LOBBY
+
         float usedArenas = 0;
         float arenas = 0;
         for(Arena arena:BedwarsAPI.getGameAPI().getArenas()){

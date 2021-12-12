@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import java.util.List;
 
 public class AutoClonePrep implements Listener {
+    //TODO on startup
     public static void stopArenasToClone(){
         List<String> cloneArenas;
         for (Arena arena : BedwarsAPI.getGameAPI().getArenas()){
