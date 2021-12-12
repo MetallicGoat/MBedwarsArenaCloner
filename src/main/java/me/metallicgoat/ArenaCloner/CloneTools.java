@@ -1,5 +1,6 @@
 package me.metallicgoat.ArenaCloner;
 
+import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import de.marcely.bedwars.api.BedwarsAPI;
 import de.marcely.bedwars.api.arena.*;
 import de.marcely.bedwars.api.exception.ArenaBuildException;
@@ -17,6 +18,8 @@ import java.util.List;
 
 public class CloneTools {
 
+    static final MVWorldManager mvWorldManager = Main.getMultiverseCore().getMVWorldManager();
+
     public static Either<Arena, String> clonedArena(Arena arena, String cloneName, boolean permanentArena) {
         World world = arena.getGameWorld();
         if (arena.getStatus() == ArenaStatus.STOPPED
@@ -26,8 +29,8 @@ public class CloneTools {
             //sendMessage(sender, ChatColor.GREEN + "Cloning Arena...");
 
             //Clone world with multiverse
-            if(Main.getMultiverseCore().getCore().getMVWorldManager().getMVWorld(cloneName) == null) {
-                if(!Main.getMultiverseCore().getCore().getMVWorldManager().cloneWorld(Main.getMultiverseCore().getCore().getMVWorldManager().getMVWorld(world).getName(), cloneName)){
+            if(mvWorldManager.getMVWorld(cloneName) == null) {
+                if(!mvWorldManager.cloneWorld(mvWorldManager.getMVWorld(world).getName(), cloneName)){
                     //sendMessage(sender, ChatColor.RED + "Error! There is likely already a folder in your main server directory called '" + cloned + "'");
                     return Either.right("Error! There is likely already a folder in your main server directory called '" + cloneName + "'");
                 }
@@ -38,7 +41,7 @@ public class CloneTools {
             //Start duplicating arena
             ArenaBuilder arenaBuilder = BedwarsAPI.getGameAPI().createArena();
             //get cloned world
-            World clonedWorld = Main.getMultiverseCore().getCore().getMVWorldManager().getMVWorld(cloneName).getCBWorld();
+            World clonedWorld = mvWorldManager.getMVWorld(cloneName).getCBWorld();
             //set name
             arenaBuilder.setName(cloneName);
             //Set regen type
@@ -126,10 +129,17 @@ public class CloneTools {
     }
 
     public static void deleteClonedArena(Arena arena){
-        //Delete Arena
-        //Delete Multiverse/SWM world
-        //Delete world folder
-        //Remove from data file
+
+        World world = arena.getGameWorld();
+
+        //Delete MBedwars Arena Data
+        arena.remove();
+
+        //true and true to delete from mv config and folder
+        mvWorldManager.deleteWorld(mvWorldManager.getMVWorld(world).getName(), true, true);
+
+        //TODO
+        //Remove from our data file
         //Save data file
     }
 }
