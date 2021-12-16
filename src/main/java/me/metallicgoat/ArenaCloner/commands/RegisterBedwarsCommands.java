@@ -43,7 +43,7 @@ public class RegisterBedwarsCommands {
 
                             if (arena != null) {
                                 long oldTime = System.currentTimeMillis();
-                                Either<Arena, String> clonedArena = CloneTools.clonedArena(arena, cloneName, true);
+                                Either<Arena, String> clonedArena = CloneTools.clonedArena(arena, cloneName, oldTime ,true);
                                 if(clonedArena.hasLeft()) {
                                     sendMessage(sender, ChatColor.GREEN + arena.getName() + "cloned successfully after " + (System.currentTimeMillis() - oldTime) + " ms");
                                 }else{

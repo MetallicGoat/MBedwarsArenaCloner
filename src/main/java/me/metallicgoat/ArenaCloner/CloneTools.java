@@ -11,21 +11,16 @@ import de.marcely.bedwars.api.world.hologram.HologramEntity;
 import de.marcely.bedwars.tools.Either;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import java.io.IOException;
-import java.util.List;
 
 public class CloneTools {
 
     static final MVWorldManager mvWorldManager = Main.getMultiverseCore().getMVWorldManager();
 
-    public static Either<Arena, String> clonedArena(Arena arena, String cloneName, boolean permanentArena) {
+    public static Either<Arena, String> clonedArena(Arena arena, String cloneName, long oldTime, boolean permanentArena) {
         World world = arena.getGameWorld();
         if (arena.getStatus() == ArenaStatus.STOPPED
                 && arena.getRegenerationType() != RegenerationType.VOTING
                 && world != null) {
-            long oldTime = System.currentTimeMillis();
             //sendMessage(sender, ChatColor.GREEN + "Cloning Arena...");
 
             //Clone world with multiverse
@@ -101,19 +96,7 @@ public class CloneTools {
                 //Enable
                 clonedArena.setStatus(ArenaStatus.LOBBY);
 
-                if(!permanentArena) {
-                    FileConfiguration dataYml = Main.getDataYml();
-                    List<String> activeArenas = dataYml.getStringList("Active-Arenas");
-                    activeArenas.add(cloneName);
-                    dataYml.set("Active-Arenas", activeArenas);
-                    try {
-                        dataYml.save(Main.dataYmlFile);
-                    }catch (IOException ignored){
-
-                    }
-                }
-
-                //Complete Message
+                //Complete
                 return Either.left(clonedArena);
                 //sendMessage(sender, ChatColor.GREEN + "Arena cloned successfully in " + (System.currentTimeMillis() - oldTime) + "ms!");
 
@@ -126,20 +109,5 @@ public class CloneTools {
             return Either.right("You can only clone arenas in Lobby status.");
             //sendMessage(sender, ChatColor.RED + "You can only clone arenas in Lobby status.");
         }
-    }
-
-    public static void deleteClonedArena(Arena arena){
-
-        World world = arena.getGameWorld();
-
-        //Delete MBedwars Arena Data
-        arena.remove();
-
-        //true and true to delete from mv config and folder
-        mvWorldManager.deleteWorld(mvWorldManager.getMVWorld(world).getName(), true, true);
-
-        //TODO
-        //Remove from our data file
-        //Save data file
     }
 }
